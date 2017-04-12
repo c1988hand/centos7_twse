@@ -31,6 +31,11 @@ RUN rpm -ivh /sys_test/jdk-1_5_0_22-linux-amd64.rpm
 
 #ENV JAVA_HOME 
 
+#加入jboss & conf (-p 連同檔案或目錄屬性一同複製 -R 複製目錄及裡面全部內容)
+ADD ./jboss-4.0.4.GA.tar /home/ 
+ADD ./conf.tar /home/
+
+
 EXPOSE 8080
 
 CMD ["/bin/bash"]
