@@ -1,3 +1,7 @@
+測試:
+run war檔
+
+
 #write dockerfile:
 
 #安裝os版本
@@ -20,6 +24,7 @@ rm -f /lib/systemd/system/anaconda.target.wants/*;
 # 安裝 JDK 5 (二-localhost)
 #yum install glibc.i686 ,32位元的 libraries
 #yum -y upgrade
+#安裝glibc套件 (linux系统中最底層的api，任何运行库都会依赖于glibc)
 RUN yum -y install glibc
 RUN mkdir /sys_test
 ADD ./jdk-1_5_0_22-linux-amd64.rpm /sys_test/
@@ -31,10 +36,17 @@ RUN rpm -ivh /sys_test/jdk-1_5_0_22-linux-amd64.rpm
 
 #ENV JAVA_HOME 
 
+#安裝os tools
+RUN yum -y install net-tools 
+
 #加入jboss & conf (-p 連同檔案或目錄屬性一同複製 -R 複製目錄及裡面全部內容)
 ADD ./jboss-4.0.4.GA.tar /home/ 
 ADD ./conf.tar /home/
+RUN echo "10.1.41.89  db.bktrade.twse.com.tw" >> /etc/hosts
+RUN echo "export PATH=$PATH:/usr/java/jdk1.5.0_22/bin/" >> /etc/profile
 
+#起java
+ENV source /etc/profile 
 
 EXPOSE 8080
 
